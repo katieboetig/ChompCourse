@@ -26,10 +26,12 @@ const styles = StyleSheet.create({
     fontSize: 32,
     fontWeight: 'bold',
     marginBottom: 20,
+    color: '#ffffff', // Added color to title
   },
   subtitle: {
     fontSize: 18,
     marginBottom: 30,
+    color: '#ffffff',
   },
   space: {
     height: 20, // Adds space between buttons

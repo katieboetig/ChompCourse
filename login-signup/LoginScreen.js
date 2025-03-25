@@ -1,22 +1,17 @@
-// useState allows us to store and update values (email & password)
-import React, { useState } from 'react';
+import React, { useState } from 'react';  // ✅ Add useState
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 
-//'exports' so that other files can import & use it
-export default function LoginScreen() {
-  //setEmail & setPassword are functions to update the values
-  //state variables: manages & stores data over time
-    const [email, setEmail] = useState('');
+
+export default function LoginScreen({ navigation }) {  // ✅ Ensure navigation is in props
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const handleLogin = () => {
-    // Create login logic and place here
     console.log('Logging in with:', email, password);
+    navigation.navigate('MajorSelection');  // ✅ Navigates correctly
   };
 
-  //UI of the login screen
   return (
-    //View: container for other components
     <View style={styles.container}>
       <Text style={styles.title}>Login</Text>
       <TextInput
@@ -38,26 +33,26 @@ export default function LoginScreen() {
     </View>
   );
 }
-
-//styles for the login screen
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'center',
-    paddingHorizontal: 20,
-    backgroundColor: '#f5f5f5',
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: '#f5f5f5',
+      paddingHorizontal: 20,
   },
   title: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    marginBottom: 20,
-    textAlign: 'center',
+      fontSize: 28,
+      fontWeight: 'bold',
+      marginBottom: 20,
+      textAlign: 'center',
   },
   input: {
-    borderWidth: 1,
-    borderColor: '#ccc',
-    padding: 12,
-    marginBottom: 15,
-    borderRadius: 8,
+      borderWidth: 1,
+      borderColor: '#ccc',
+      padding: 12,
+      marginBottom: 15,
+      borderRadius: 8,
   },
 });
+

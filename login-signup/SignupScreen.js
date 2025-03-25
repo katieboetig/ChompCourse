@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 
-export default function LoginScreen() {
+export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const handleLogin = () => {
     console.log('Logging in with:', email, password);
+    navigation.navigate('MajorSelection');
   };
 
   return (
@@ -41,6 +42,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 28,
+    
     fontWeight: 'bold',
     marginBottom: 20,
     textAlign: 'center',
