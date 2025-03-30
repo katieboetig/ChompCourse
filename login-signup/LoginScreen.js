@@ -1,14 +1,27 @@
 import React, { useState } from 'react';  // ✅ Add useState
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { StyleSheet, TextInput, TouchableOpacity, View, Text, SafeAreaView, Alert, Button} from 'react-native';
+import { doSignInWithEmailAndPassword } from '../firebase/auth';
+import { auth } from '../firebase/firebase';
 
 
 export default function LoginScreen({ navigation }) {  // ✅ Ensure navigation is in props
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleLogin = () => {
-    console.log('Logging in with:', email, password);
-    navigation.navigate('MajorSelection');  // ✅ Navigates correctly
+  const handleLogin = async () => {
+    if (!email || !password) {
+      Alert.alert('Error', 'Please enter both email and password');
+      return;
+    }
+
+
+    try {
+      await doSignInWithEmailAndPassword(email, password);
+      navigation.replace('MajorSelection');
+    } catch (error) {
+      console.error('Login error:', error);
+      Alert.alert('Error', error.message || 'Failed to log in');
+    } 
   };
 
   return (
