@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+//backend portion
 import { doCreateUserWithEmailAndPassword } from '../firebase/auth';
 import { auth } from '../firebase/firebase';
 
@@ -16,7 +17,7 @@ export default function LoginScreen({ navigation }) {
       return;
     }
 
-    setLoading(true);
+    setLoading(true); //backend portion
     try {
       // Create authentication user
       await doCreateUserWithEmailAndPassword(email, password)

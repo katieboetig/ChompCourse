@@ -1,28 +1,22 @@
-import React, { useState } from 'react';  // ✅ Add useState
-import { StyleSheet, TextInput, TouchableOpacity, View, Text, SafeAreaView, Alert, Button} from 'react-native';
-import { doSignInWithEmailAndPassword } from '../firebase/auth';
-import { auth } from '../firebase/firebase';
+import React, { useState } from 'react';  
+import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import {doSignInWithEmailandPassword } from '../firebase/auth';
 
 
-export default function LoginScreen({ navigation }) {  // ✅ Ensure navigation is in props
+export default function LoginScreen({ navigation }) {  
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleLogin = async () => {
-    if (!email || !password) {
-      Alert.alert('Error', 'Please enter both email and password');
-      return;
-    }
-
-
+  const handleLogin = async () => { //updated by katie
     try {
       await doSignInWithEmailAndPassword(email, password);
-      navigation.replace('MajorSelection');
+      navigation.navigate('MajorSelection');
     } catch (error) {
-      console.error('Login error:', error);
-      Alert.alert('Error', error.message || 'Failed to log in');
-    } 
+      console.error('Login error:', error.message);
+      Alert.alert('Login failed', error.message);
+    }
   };
+  
 
   return (
     <View style={styles.container}>

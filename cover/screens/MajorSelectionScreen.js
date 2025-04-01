@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
-
+import majors from '../login-signup/majors.json';
 export default function MajorSelectionScreen({ navigation }) {
     const [major, setMajor] = useState(' ');
 
     const handleSubmit = () => {
-        console.log('Selected Major:', major);
-        //Navigates to next screen, need to save the data
+      const majorData = majors[major];
+    
+      if (majorData) {
+        navigation.navigate('PlanViewer', { url: majorData.url });
+      } else {
+        alert('Sorry, we couldn’t find that major.');
+      }
     };
 
     return (
