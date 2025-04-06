@@ -46,13 +46,21 @@ try:
 
     print("\n📋 Model Semester Plan:")
     for row in rows:
+    # Check if the row is a semester header
+        header_cells = row.find_elements(By.TAG_NAME, "th")
+        if header_cells:
+            semester_name = " ".join(cell.text.strip() for cell in header_cells)
+            print(f"\n {semester_name}")
+            continue
+
+    # Otherwise, print the course details in the row
         cells = row.find_elements(By.TAG_NAME, "td")
         if cells:
             text = " | ".join(cell.text.strip() for cell in cells)
             print(text)
 
 except Exception as e:
-    print(f"❌ Error: {e}")
+    print(f" Error: {e}")
 
 finally:
     driver.quit()
