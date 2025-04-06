@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
+import { View, Text, Button, StyleSheet, TouchableOpacity } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 
 export default function MajorSelectionScreen({ navigation }) {
@@ -26,7 +26,7 @@ export default function MajorSelectionScreen({ navigation }) {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Select Your Major</Text>
+            <Text style={styles.title}>Select your major</Text>
             <View style={styles.dropdownContainer}>
                 <DropDownPicker
                     open={open}
@@ -41,12 +41,10 @@ export default function MajorSelectionScreen({ navigation }) {
                 />
             </View>
             
-            <Button 
-                title="Submit" 
-                onPress={handleSubmit} 
-                color="#007AFF"
-                disabled={!major} 
-            />
+          
+            <TouchableOpacity style={styles.continueButton} onPress={handleSubmit}>
+                            <Text style={styles.buttonText}>Continue</Text>
+                          </TouchableOpacity>
         </View>
     );
 }
@@ -77,5 +75,19 @@ const styles = StyleSheet.create({
     dropdownList: {
         borderColor: '#ccc',
         backgroundColor: '#fff',
-    }
+    },
+    continueButton: {
+        backgroundColor: '#FA4616',
+        borderRadius: 25,
+        padding: 15,
+        alignItems: 'center',
+        alignSelf: 'center',
+        marginTop: 20,
+        width: 150,
+      },
+      buttonText: {
+        color: '#ffffff',
+        fontSize: 16,
+        fontWeight: "800",
+      },
 });

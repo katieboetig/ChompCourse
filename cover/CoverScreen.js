@@ -10,10 +10,13 @@ export default function CoverScreen({ navigation }) {
       style={styles.background} 
     >
       <View style={styles.container}>
-      <Text style={{ fontSize: 30, fontWeight: "bold", textAlign: "center", color: "white", marginBottom: 40 }}>
-          ChompCourse: Bite into the Best Classes!
+      <Text style={{ fontSize: 30, fontWeight: "bold", textAlign: "center", color: "white", marginBottom: 20 }}>
+          Welcome to ChompCourse
         </Text>
 
+        <Text style={{ fontSize: 18, fontWeight: "", textAlign: "center", color: "white", marginBottom: 10 }}>
+          Bite into the best classes!
+        </Text>
       
         <TouchableOpacity style={styles.loginButton} onPress={() => navigation.navigate('Login')}>
           <Text style={styles.buttonText}>Login</Text>
@@ -43,22 +46,22 @@ const styles = StyleSheet.create({
     height: 20,
   },
   createAccountButton: {
-    backgroundColor: '#F8B195',
+    backgroundColor: '#0021A5',
     borderRadius: 25,
     padding: 15,
     alignItems: 'center',
     alignSelf: 'center',
     marginTop: 20,
-    width: 200,
+    width: 150,
   },
   loginButton: {
-    backgroundColor: '#F8B195',
+    backgroundColor: '#FA4616',
     borderRadius: 25,
     padding: 15,
     alignItems: 'center',
     alignSelf: 'center',
     marginTop: 20,
-    width: 200,
+    width: 150,
   },
 
   buttonText: {

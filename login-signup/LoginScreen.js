@@ -42,7 +42,10 @@ export default function LoginScreen({ navigation }) {  // ✅ Ensure navigation 
         onChangeText={setPassword}
         secureTextEntry
       />
-      <Button title="Login" onPress={handleLogin} />
+      
+       <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
+                <Text style={styles.buttonText}>Login</Text>
+              </TouchableOpacity>
     </View>
   );
 }
@@ -50,7 +53,6 @@ const styles = StyleSheet.create({
   container: {
       flex: 1,
       justifyContent: 'center',
-      alignItems: 'center',
       backgroundColor: '#f5f5f5',
       paddingHorizontal: 20,
   },
@@ -66,5 +68,20 @@ const styles = StyleSheet.create({
       padding: 12,
       marginBottom: 15,
       borderRadius: 8,
+  },
+  loginButton: {
+    backgroundColor: '#FA4616',
+    borderRadius: 25,
+    padding: 15,
+    alignItems: 'center',
+    alignSelf: 'center',
+    marginTop: 20,
+    width: 150,
+  },
+
+  buttonText: {
+    color: '#ffffff',
+    fontSize: 16,
+    fontWeight: "800",
   },
 });
