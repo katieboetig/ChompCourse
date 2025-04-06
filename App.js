@@ -10,6 +10,7 @@ import CoverScreen from './cover/CoverScreen';
 import LoginScreen from './login-signup/LoginScreen';
 import SignupScreen from './login-signup/SignupScreen';
 import MajorSelectionScreen from './cover/screens/MajorSelectionScreen';
+import courseSelection from './cover/screens/courseSelection';
 
 const Stack = createNativeStackNavigator();
 
@@ -21,6 +22,7 @@ export default function App() {
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Signup" component={SignupScreen} />
         <Stack.Screen name="MajorSelection" component={MajorSelectionScreen} />
+        <Stack.Screen name="CourseSelection" component={courseSelection} />
       </Stack.Navigator>
     </NavigationContainer>
   );

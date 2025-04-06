@@ -31,7 +31,7 @@ try:
     table = model_plan_section.find_element(By.TAG_NAME, "table")
     rows = table.find_elements(By.TAG_NAME, "tr")
 
-    course_map = {}  # Dictionary to store course information
+    course_arr = []  # Dictionary to store course information
 
     print("\n📋 Model Semester Plan:")
     for row in rows:
@@ -41,8 +41,8 @@ try:
             course_name = cells[1].text.strip()
             credits = cells[2].text.strip()
 
-            if course_code:
-                course_map[course_code] = [course_name, credits]
+            if course_code: #change course name potentioally
+                course_arr.append([course_code, course_name, credits])
 
     print("\n📋 Model Semester Plan:")
     for row in rows:

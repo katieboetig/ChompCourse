@@ -20,8 +20,9 @@ export default function MajorSelectionScreen({ navigation }) {
 
     const handleSubmit = () => {
         console.log('Selected Major:', major);
-        // Navigates to next screen, need to save the data
+        navigation.navigate('CourseSelection', { selectedMajor: major });
     };
+    
 
     return (
         <View style={styles.container}>
