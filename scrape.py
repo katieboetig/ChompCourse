@@ -31,28 +31,51 @@ try:
     table = model_plan_section.find_element(By.TAG_NAME, "table")
     rows = table.find_elements(By.TAG_NAME, "tr")
 
-    course_arr = []  # Dictionary to store course information
+  
+    # for row in rows:
+    #     cells = row.find_elements(By.TAG_NAME, "td")
+    #     if len(cells) >= 3:  # Ensure there are enough columns to parse
+    #         course_code = cells[0].text.strip()
+    #         course_name = cells[1].text.strip()
+    #         credits = cells[2].text.strip()
+
+
+
+    course_by_semester = {}
+    current_semester = None
 
     print("\n📋 Model Semester Plan:")
     for row in rows:
+    # Check if the row is a semester header
+        header_cells = row.find_elements(By.TAG_NAME, "th")
+        if header_cells:
+            semester_name = " ".join(cell.text.strip() for cell in header_cells)
+            print(f"\n {semester_name}")
+            current_semester = semester_name
+            
+            continue
         cells = row.find_elements(By.TAG_NAME, "td")
         if len(cells) >= 3:  # Ensure there are enough columns to parse
             course_code = cells[0].text.strip()
             course_name = cells[1].text.strip()
             credits = cells[2].text.strip()
+            course_by_semester[current_semester].append([course_code, course_name, credits])
 
-            if course_code: #change course name potentioally
-                course_arr.append([course_code, course_name, credits])
-
-    print("\n📋 Model Semester Plan:")
-    for row in rows:
+    # Otherwise, print the course details in the row
         cells = row.find_elements(By.TAG_NAME, "td")
         if cells:
             text = " | ".join(cell.text.strip() for cell in cells)
             print(text)
 
+    print("\n📚 Courses by Semester:")
+    for semester, courses in course_by_semester.items():
+        print(f"\n🗓️ {semester}")
+        for course in courses:
+            print(f" - {course[0]} | {course[1]} | {course[2]} credits")
+
+
 except Exception as e:
-    print(f"❌ Error: {e}")
+    print(f" Error: {e}")
 
 finally:
     driver.quit()
