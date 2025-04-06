@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from 'react-native';
 import { doCreateUserWithEmailAndPassword } from '../firebase/auth';
 import { auth } from '../firebase/firebase';
 
@@ -55,7 +55,10 @@ export default function LoginScreen({ navigation }) {
         onChangeText={setPassword}
         secureTextEntry
       />
-      <Button title="Sign Up" onPress={handleCreateAccount} />
+     
+      <TouchableOpacity style={styles.createAccountButton} onPress={handleCreateAccount}>
+                <Text style={styles.buttonText}>Sign Up</Text>
+              </TouchableOpacity>
     </View>
   );
 }
@@ -80,5 +83,19 @@ const styles = StyleSheet.create({
     padding: 12,
     marginBottom: 15,
     borderRadius: 8,
+  },
+  createAccountButton: {
+    backgroundColor: '#0021A5',
+    borderRadius: 25,
+    padding: 15,
+    alignItems: 'center',
+    alignSelf: 'center',
+    marginTop: 20,
+    width: 150,
+  },
+  buttonText: {
+    color: '#ffffff',
+    fontSize: 16,
+    fontWeight: "800",
   },
 });
