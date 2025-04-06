@@ -52,7 +52,7 @@ try:
             semester_name = " ".join(cell.text.strip() for cell in header_cells)
             print(f"\n {semester_name}")
             current_semester = semester_name
-            
+            course_by_semester[current_semester] = []
             continue
         cells = row.find_elements(By.TAG_NAME, "td")
         if len(cells) >= 3:  # Ensure there are enough columns to parse
@@ -61,21 +61,6 @@ try:
             credits = cells[2].text.strip()
             course_by_semester[current_semester].append([course_code, course_name, credits])
 
-<<<<<<< HEAD
-=======
-            if course_code:
-                course_map[course_code] = [course_name, credits]
-
-    print("\n📋 Model Semester Plan:")
-    for row in rows:
-    # Check if the row is a semester header
-        header_cells = row.find_elements(By.TAG_NAME, "th")
-        if header_cells:
-            semester_name = " ".join(cell.text.strip() for cell in header_cells)
-            print(f"\n {semester_name}")
-            continue
-
->>>>>>> 1cb2b44238c3f3a736c0b0b6eedecdbf0f8e6adb
     # Otherwise, print the course details in the row
         cells = row.find_elements(By.TAG_NAME, "td")
         if cells:
