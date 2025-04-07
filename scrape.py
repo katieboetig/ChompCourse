@@ -4,6 +4,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
+import json
 
 # Setup headless Chrome for less flashing, optional
 chrome_options = Options()
@@ -31,13 +32,6 @@ try:
     table = model_plan_section.find_element(By.TAG_NAME, "table")
     rows = table.find_elements(By.TAG_NAME, "tr")
 
-  
-    # for row in rows:
-    #     cells = row.find_elements(By.TAG_NAME, "td")
-    #     if len(cells) >= 3:  # Ensure there are enough columns to parse
-    #         course_code = cells[0].text.strip()
-    #         course_name = cells[1].text.strip()
-    #         credits = cells[2].text.strip()
 
 
 
@@ -55,11 +49,17 @@ try:
             course_by_semester[current_semester] = []
             continue
         cells = row.find_elements(By.TAG_NAME, "td")
-        if len(cells) >= 3:  # Ensure there are enough columns to parse
+        if len(cells) == 3:
             course_code = cells[0].text.strip()
             course_name = cells[1].text.strip()
             credits = cells[2].text.strip()
-            course_by_semester[current_semester].append([course_code, course_name, credits])
+        elif len(cells) == 2:
+            course_code = ""  # or "N/A"
+            course_name = cells[0].text.strip()
+            credits = cells[1].text.strip()
+        else:
+            continue
+        course_by_semester[current_semester].append([course_code, course_name, credits])
 
     # Otherwise, print the course details in the row
         cells = row.find_elements(By.TAG_NAME, "td")
@@ -73,6 +73,8 @@ try:
         for course in courses:
             print(f" - {course[0]} | {course[1]} | {course[2]} credits")
 
+    with open("courses_by_semester.json", "w") as f:
+        json.dump(course_by_semester, f, indent=2)
 
 except Exception as e:
     print(f" Error: {e}")
