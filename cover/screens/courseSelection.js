@@ -2,20 +2,11 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
 import Checkbox from 'expo-checkbox';
 
-const mockCourseArr = [
-  ['IDS1307', 'Writing Life: Humanities & You', '3'],
-  ['COP3502C', 'Programming Fundamentals 1', '4'],
-  ['CHM2045', 'General Chemistry', '3'],
-  ['MAC2311', 'Analytical Geom and Calc 1', '4'],
-];
+// 📦 Load course data from JSON file
+const courseMap = require('../../assets/courses_by_semester.json');
 
-const groupedBySemester = {
-  'Semester one': mockCourseArr,
-  'Semester two': mockCourseArr,
-  'Semester three': mockCourseArr,
-  'Semester four': mockCourseArr,
-  'Semester five': mockCourseArr,
-};
+// 🗂️ Use courseMap directly
+const groupedBySemester = courseMap;
 
 export default function CourseSelectScreen() {
   const [selectedCourses, setSelectedCourses] = useState({});
@@ -34,21 +25,26 @@ export default function CourseSelectScreen() {
         {Object.entries(groupedBySemester).map(([semester, courses]) => (
           <View key={semester} style={styles.semesterBlock}>
             <Text style={styles.semesterTitle}>{semester}</Text>
-            {courses.map(([code, name]) => (
-              <View key={`${semester}-${code}`} style={styles.row}>
-                <View style={styles.cell}>
-                  <Text style={styles.code}>{code}</Text>
+            {courses
+              .filter(([code, name]) => {
+                // 🧼 Remove rows like ["Credits", "(13 credits)", ""]
+                return !(code.trim().toLowerCase() === 'credits' && name.toLowerCase().includes('credits'));
+              })
+              .map(([code, name, credits], index) => (
+                <View key={`${semester}-${code || 'nocode'}-${index}`} style={styles.row}>
+                  <View style={styles.cell}>
+                    <Text style={styles.code}>{code}</Text>
+                  </View>
+                  <View style={styles.cell}>
+                    <Text>{name} ({credits} credits)</Text>
+                  </View>
+                  <Checkbox
+                    value={!!selectedCourses[code]}
+                    onValueChange={() => toggleCourse(code)}
+                    color={selectedCourses[code] ? '#333' : undefined}
+                  />
                 </View>
-                <View style={styles.cell}>
-                  <Text>{name}</Text>
-                </View>
-                <Checkbox
-                  value={!!selectedCourses[code]}
-                  onValueChange={() => toggleCourse(code)}
-                  color={selectedCourses[code] ? '#333' : undefined}
-                />
-              </View>
-            ))}
+              ))}
           </View>
         ))}
       </ScrollView>
@@ -56,12 +52,10 @@ export default function CourseSelectScreen() {
   );
 }
 
-
 const styles = StyleSheet.create({
-    scrollContent: {
-        paddingBottom: 40,
-      },
-
+  scrollContent: {
+    paddingBottom: 40,
+  },
   container: {
     padding: 16,
     backgroundColor: '#ccc',
