@@ -18,11 +18,33 @@ export default function MajorSelectionScreen({ navigation }) {
         { label: 'Chemistry', value: 'chemistry' }
     ]);
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         console.log('Selected Major:', major);
-        navigation.navigate('CourseSelection', { selectedMajor: major });
-    };
-    
+      
+        try {
+          const response = await fetch('http://10.132.161.81:5000/scrape', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ major }),
+          });
+      
+          const data = await response.json();
+          console.log('🧠 Scrape response:', data);
+      
+          if (response.ok) {
+            // Success! Move to the next screen
+            navigation.navigate('CourseSelection', { selectedMajor: major });
+          } else {
+            alert(`Scrape failed: ${data.error}`);
+          }
+        } catch (error) {
+          console.error('❌ Network error:', error);
+          alert('Failed to contact scraping server.');
+        }
+      };
+      
 
     return (
         <View style={styles.container}>
