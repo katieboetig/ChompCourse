@@ -1,12 +1,13 @@
 import { Button } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, ScrollView, TouchableOpacity } from 'react-native';
 import Checkbox from 'expo-checkbox';
 
 // 📦 Load course data from JSON file. static file
 const courseMap = require('../../assets/courses_by_semester.json');
 
+export default function CourseSelectScreen({ navigation }) {
 // 🗂️ Use courseMap directly
 const groupedBySemester = courseMap;
 
@@ -44,7 +45,7 @@ export default function CourseSelectScreen() {
     <SafeAreaView style={styles.container}>
       <Text style={styles.header}>Choose the classes you’ve already taken</Text>
       <ScrollView contentContainerStyle={styles.scrollContent}>
-        {Object.entries(groupedBySemester).map(([semester, courses]) => (
+        {Object.entries(groupedBySemester).map(([semester, courses], semesterIndex) => (
           <View key={semester} style={styles.semesterBlock}>
             <Text style={styles.semesterTitle}>{semester}</Text>
             {courses
@@ -52,7 +53,10 @@ export default function CourseSelectScreen() {
                 return !(code.trim().toLowerCase() === 'credits' && name.toLowerCase().includes('credits'));
               })
               .map(([code, name, credits], index) => (
-                <View key={`${semester}-${code || 'nocode'}-${index}`} style={styles.row}>
+                <View key={`${semester}-${code || 'nocode'}-${index}`} style={[
+               styles.row,
+               { backgroundColor: semesterIndex % 2 === 0 ? '#FFBC5D' : '#5DAEFF' },
+             ]}>
                   <View style={styles.cell}>
                     <Text style={styles.code}>{code}</Text>
                   </View>
@@ -69,9 +73,10 @@ export default function CourseSelectScreen() {
           </View>
         ))}
       </ScrollView>
-      <View style={{ paddingVertical: 16 }}>
-        <Button title="Continue" onPress={handleContinue} />
-      </View>
+       <TouchableOpacity style={styles.continueButton} onPress={handleContinue}>
+                                  <Text style={styles.buttonText}>Continue</Text>
+                                </TouchableOpacity>
+
     </SafeAreaView>
   );
 }
@@ -79,17 +84,18 @@ export default function CourseSelectScreen() {
 
 const styles = StyleSheet.create({
   scrollContent: {
-    paddingBottom: 40,
+      paddingBottom: 40,
   },
   container: {
     padding: 16,
-    backgroundColor: '#ccc',
+    backgroundColor: '#fff',
     flex: 1,
   },
   header: {
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: 'bold',
     marginBottom: 24,
+    marginTop: 24,
     textAlign: 'center',
   },
   semesterBlock: {
@@ -106,7 +112,7 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     alignItems: 'center',
-    borderColor: '#999',
+    borderColor: '000',
     borderWidth: 1,
     padding: 8,
     borderRadius: 6,
@@ -118,5 +124,19 @@ const styles = StyleSheet.create({
   },
   code: {
     fontWeight: '600',
+  },
+  continueButton: {
+    backgroundColor: '#0021A5',
+    borderRadius: 25,
+    padding: 15,
+    alignItems: 'center',
+    alignSelf: 'center',
+    marginTop: 20,
+    width: 150,
+  },
+  buttonText: {
+    color: '#ffffff',
+    fontSize: 16,
+    fontWeight: "800",
   },
 });
