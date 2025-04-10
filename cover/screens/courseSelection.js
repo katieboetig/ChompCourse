@@ -1,30 +1,44 @@
+import { Button } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, SafeAreaView, ScrollView, TouchableOpacity } from 'react-native';
 import Checkbox from 'expo-checkbox';
 
-const mockCourseArr = [
-  ['IDS1307', 'Writing Life: Humanities & You', '3'],
-  ['COP3502C', 'Programming Fundamentals 1', '4'],
-  ['CHM2045', 'General Chemistry', '3'],
-  ['MAC2311', 'Analytical Geom and Calc 1', '4'],
-];
-
-const groupedBySemester = {
-  'Semester 1': mockCourseArr,
-  'Semester 2': mockCourseArr,
-  'Semester 3': mockCourseArr,
-  'Semester 4': mockCourseArr,
-  'Semester 5': mockCourseArr,
-};
+// 📦 Load course data from JSON file. static file
+const courseMap = require('../../assets/courses_by_semester.json');
 
 export default function CourseSelectScreen({ navigation }) {
+// 🗂️ Use courseMap directly
+const groupedBySemester = courseMap;
+
+
+// react state hook tracking the courses the user has selected
+export default function CourseSelectScreen() {
+  const navigation = useNavigation(); // ✅ navigation hook
+  // updated when the user checks or unchecks a box
   const [selectedCourses, setSelectedCourses] = useState({});
 
   const toggleCourse = (code) => {
-    setSelectedCourses((prev) => ({
+    setSelectedCourses((prev) => ({ //selectedCourses is an object with course codes as keys and boolean values indicating whether the course is selected or not
       ...prev,
-      [code]: !prev[code],
+      [code]: !prev[code], //flips the selection status of the course, true or false
     }));
+  };
+
+  const handleContinue = () => { //grabs the unselected courses
+    const unselectedCourses = Object.entries(groupedBySemester) //turns it into an array of key-value pairs
+      .flatMap(([semester, courses]) => //goes through each semester and collects all the courses that were not selected
+        courses.filter(([code]) => !selectedCourses[code])
+      );
+      //unselectedCourses is a flat array of courses that the user has not checked off
+
+    console.log("✅ Unselected Courses:", unselectedCourses);
+
+    //navigates to the SummaryScreen, passes two values as route parameters: takenCourses (the object of courses the user checked), remainingCourses (the flat list of unchecked courses)
+    navigation.navigate('ScheduleSummary'), {
+      takenCourses: selectedCourses,
+      remainingCourses: unselectedCourses, //what I'm using
+    };
   };
 
   return (
@@ -34,34 +48,35 @@ export default function CourseSelectScreen({ navigation }) {
         {Object.entries(groupedBySemester).map(([semester, courses], semesterIndex) => (
           <View key={semester} style={styles.semesterBlock}>
             <Text style={styles.semesterTitle}>{semester}</Text>
-            {courses.map(([code, name]) => (
-             <View
-             key={`${semester}-${code}`}
-             style={[
+            {courses
+              .filter(([code, name]) => {
+                return !(code.trim().toLowerCase() === 'credits' && name.toLowerCase().includes('credits'));
+              })
+              .map(([code, name, credits], index) => (
+                <View key={`${semester}-${code || 'nocode'}-${index}`} style={[
                styles.row,
                { backgroundColor: semesterIndex % 2 === 0 ? '#FFBC5D' : '#5DAEFF' },
-             ]}
-           >
-                <View style={styles.cell}
-                >
-                  <Text style={styles.code}>{code}</Text>
+             ]}>
+                  <View style={styles.cell}>
+                    <Text style={styles.code}>{code}</Text>
+                  </View>
+                  <View style={styles.cell}>
+                    <Text>{name} ({credits} credits)</Text>
+                  </View>
+                  <Checkbox
+                    value={!!selectedCourses[code]}
+                    onValueChange={() => toggleCourse(code)}
+                    color={selectedCourses[code] ? '#333' : undefined}
+                  />
                 </View>
-                <View style={styles.cell}>
-                  <Text>{name}</Text>
-                </View>
-                <Checkbox
-                  value={!!selectedCourses[code]}
-                  onValueChange={() => toggleCourse(code)}
-                  color={selectedCourses[code] ? '#333' : undefined}
-                />
-              </View>
-            ))}
+              ))}
           </View>
         ))}
       </ScrollView>
-       <TouchableOpacity style={styles.continueButton}>
+       <TouchableOpacity style={styles.continueButton} onPress={handleContinue}>
                                   <Text style={styles.buttonText}>Continue</Text>
                                 </TouchableOpacity>
+
     </SafeAreaView>
   );
 }
