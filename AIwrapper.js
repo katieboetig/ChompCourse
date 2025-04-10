@@ -1,5 +1,5 @@
 const url = 'https://api.openai.com/v1/chat/completions';
-const OPENAI_API_KEY = process.env.EXPO_PUBLIC_API_KEY;
+const OPENAI_API_KEY = "sk-proj-";
 
 const headers = {
   'Content-Type': 'application/json',
@@ -48,6 +48,7 @@ Return your response as a **pure JSON object only**, like this — no extra form
     model: "gpt-3.5-turbo-0125",
     messages: [
       { role: "system", content: "You are an academic advisor." },
+      { role: "system", content: "Respond ONLY with the JSON object. Do not include explanations, markdown, or any other text." },
       { role: "user", content: prompt }
     ]
   };
@@ -79,7 +80,7 @@ Return your response as a **pure JSON object only**, like this — no extra form
     const parsed = JSON.parse(jsonString);
     return parsed;
   } catch (e) {
-    return { rawResponse: content }; // fallback if not valid JSON
+    return { rawResponse: jsonString }; // fallback if not valid JSON
   }
 };
 
