@@ -30,7 +30,7 @@ export default function MajorSelectionScreen({ navigation }) {
             ["COT 3100", "Discrete Structures", "3"],
           ];
       
-const response = await fetch("http://10.132.161.81:5000/generate", {
+    const response = await fetch("http://10.132.161.81:5000/generate", {
             method: "POST",
             headers: {
             "Content-Type": "application/json",
@@ -57,6 +57,24 @@ const response = await fetch("http://10.132.161.81:5000/generate", {
           alert("Network request failed.");
         }
       };
+
+      const handleMajorSelect = async (major) => {
+        try {
+          const response = await fetch("http://<your-ip>:8000/scrape", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ major })
+          });
+      
+          const result = await response.json();
+          console.log("Scrape response:", result);
+        } catch (error) {
+          console.error("Error calling scrape endpoint:", error);
+        }
+      };
+      
       
       
 

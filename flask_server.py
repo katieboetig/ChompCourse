@@ -10,8 +10,24 @@ app = Flask(__name__)
 
 @app.route("/scrape", methods=["POST"])
 def run_scrape():
-    # Placeholder for the scrape functionality
-    return jsonify({"message": "Scrape endpoint is not implemented yet."})
+    try:
+        data = request.get_json()
+        major = data.get("major")
+        if not major:
+            return jsonify({"error": "Missing major"}), 400
+
+        result = subprocess.run(
+            ["python", "scrape.py", major],
+            capture_output=True,
+            text=True
+        )
+
+        if result.returncode != 0:
+            return jsonify({"error": "Scrape failed", "details": result.stderr}), 500
+
+        return jsonify({"message": "Scraping successful!"})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 @app.route("/generate", methods=["POST"])
 def generate_schedule():

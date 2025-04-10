@@ -17,12 +17,14 @@ export default function CourseSelectScreen() {
   // updated when the user checks or unchecks a box
   const [selectedCourses, setSelectedCourses] = useState({});
 
-  const toggleCourse = (code) => {
-    setSelectedCourses((prev) => ({ //selectedCourses is an object with course codes as keys and boolean values indicating whether the course is selected or not
+  const toggleCourse = (semester, name) => {
+    const key = `${semester}|${name}`;
+    setSelectedCourses(prev => ({
       ...prev,
-      [code]: !prev[code], //flips the selection status of the course, true or false
+      [key]: !prev[key]
     }));
   };
+  
 
   const handleContinue = () => { //grabs the unselected courses
     const unselectedCourses = Object.entries(groupedBySemester) //turns it into an array of key-value pairs
@@ -34,10 +36,14 @@ export default function CourseSelectScreen() {
     console.log("✅ Unselected Courses:", unselectedCourses);
 
     //navigates to the SummaryScreen, passes two values as route parameters: takenCourses (the object of courses the user checked), remainingCourses (the flat list of unchecked courses)
-    navigation.navigate('ScheduleSummary'), {
-      takenCourses: selectedCourses,
-      remainingCourses: unselectedCourses, //what I'm using
-    };
+  const takenCourses = Object.keys(selectedCourses)
+    .filter((key) => selectedCourses[key])
+    .map((key) => key.split("|")[1]); // just get the name part
+
+    navigation.navigate("ScheduleSummary", {
+    takenCourses,
+    remainingCourses: unselectedCourses,
+});
   };
 
   return (
@@ -60,8 +66,8 @@ export default function CourseSelectScreen() {
                     <Text>{name} ({credits} credits)</Text>
                   </View>
                   <Checkbox
-                    value={!!selectedCourses[code]}
-                    onValueChange={() => toggleCourse(code)}
+                    value={!!selectedCourses[`${semester}|${name}`]}
+                    onValueChange={() => toggleCourse(semester, name)}
                     color={selectedCourses[code] ? '#333' : undefined}
                   />
                 </View>
