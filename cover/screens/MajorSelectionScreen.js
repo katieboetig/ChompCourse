@@ -34,7 +34,6 @@ export default function MajorSelectionScreen({ navigation }) {
                 },
                 body: JSON.stringify({
                     major: major,
-                    preferences: {}  // Placeholder for future additions
                 }),
             });
 
