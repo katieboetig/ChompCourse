@@ -1,28 +1,29 @@
-print("scrape.py started!")
+print("✅ scrape.py started!")
 
 # 🧠 IMPORTS
 import sys
 import io
 import time
 import json
+import os
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-# 🔧 Handle encoding for stdout
+# 🔧 Ensure UTF-8 encoding
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
-# 🧪 Parse CLI Argument
+# 🧪 Check for major argument
 if len(sys.argv) < 2:
-    print("X Please provide a major.")
+    print("❌ Please provide a major.")
     exit()
 
 major = sys.argv[1].strip().lower()
-print(f"Scraping for major: {major}")
+print(f"🎓 Scraping for major: {major}")
 
-# 🔗 Get URL based on major
+# 🔗 URL lookup by major
 def major_url(major_selected):
     urls = {
         "computer_science": "https://catalog.ufl.edu/UGRD/colleges-schools/UGENG/CPS_BSCS/",
@@ -38,34 +39,39 @@ def major_url(major_selected):
     }
     return urls.get(major_selected)
 
-# ⚙️ Selenium Setup
+# ⚙️ Setup Selenium WebDriver
 chrome_options = Options()
 chrome_options.add_argument("--headless=new")
+chrome_options.add_argument("--disable-gpu")
+chrome_options.add_argument("--no-sandbox")
+
 driver = webdriver.Chrome(options=chrome_options)
 
 try:
     url = major_url(major)
     if not url:
-        print("Invalid major selected. Please try again.")
+        print("❌ Invalid major selected. Please try again.")
         exit()
 
-    print("Opening URL:", url)
-    driver.delete_all_cookies()
+    print(f"🌐 Opening URL: {url}")
     driver.get(url)
-    print("Opened URL:", driver.current_url)
 
     wait = WebDriverWait(driver, 10)
-    model_plan_tab = wait.until(EC.element_to_be_clickable((By.XPATH, "//a[@href='#modelsemesterplantextcontainer']")))
+    model_plan_tab = wait.until(
+        EC.element_to_be_clickable((By.XPATH, "//a[@href='#modelsemesterplantextcontainer']"))
+    )
     model_plan_tab.click()
-    print("Clicked 'Model Semester Plan' tab")
+    print("🧩 Clicked 'Model Semester Plan' tab")
 
-    model_plan_section = wait.until(EC.presence_of_element_located((By.ID, "modelsemesterplantextcontainer")))
+    model_plan_section = wait.until(
+        EC.presence_of_element_located((By.ID, "modelsemesterplantextcontainer"))
+    )
     time.sleep(1)
 
     table = model_plan_section.find_element(By.TAG_NAME, "table")
     rows = table.find_elements(By.TAG_NAME, "tr")
 
-    # 📘 Parse Table
+    # 📘 Parse Course Table
     course_by_semester = {}
     current_semester = None
 
@@ -82,29 +88,47 @@ try:
             course_name = cells[1].text.strip() if len(cells) > 1 else ""
             credits = cells[2].text.strip() if len(cells) > 2 else ""
 
-        # ❌ Skip "Credits" rows
             if course_code.lower().startswith("credits") or course_name.lower().startswith("credits"):
-                pass  # Skip processing this row
+                continue
 
-        # ✅ Append valid course data
             if current_semester:
                 course_by_semester[current_semester].append([course_code, course_name, credits])
 
-
-
-    print("\nCourses by Semester:")
+    # 🖨️ Output scraped data to terminal
+    print("\n📦 Courses by Semester:")
     for semester, courses in course_by_semester.items():
-        print(f"\n{semester}")
+        print(f"\n📚 {semester}")
         for course in courses:
             print(f" - {course[0]} | {course[1]} | {course[2]} credits")
 
-    # 💾 Write to file
-    with open("assets/courses_by_semester.json", "w") as f:
-        json.dump(course_by_semester, f, indent=2)
-        print("Saved to assets/courses_by_semester.json")
+    # 💾 Save to JSON
+    print("\n💾 Preparing to save JSON file...")
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    output_path = os.path.join(base_dir, "assets", "courses_by_semester.json")
+
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+
+    # 🗑️ Delete existing file if it exists
+    if os.path.isfile(output_path):
+        try:
+            os.remove(output_path)
+            print("🗑️ Old file deleted successfully.")
+        except Exception as e:
+            print(f"❌ Failed to delete old file: {e}")
+    else:
+        print("📂 No existing file to delete.")
+
+    # ✍️ Write the new file
+    try:
+        with open(output_path, "w", encoding="utf-8") as f:
+            json.dump(course_by_semester, f, indent=2, ensure_ascii=False)
+            print(f"✅ New JSON saved to {output_path}")
+    except Exception as e:
+        print(f"❌ Failed to write new JSON file: {e}")
 
 except Exception as e:
-    print(f"Error: {e}")
+    print(f"❌ Scraping failed: {e}")
 
 finally:
     driver.quit()
+    print("🚪 Selenium driver closed.")

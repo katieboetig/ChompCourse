@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, Button, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, Alert, StyleSheet, TouchableOpacity } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 
 export default function MajorSelectionScreen({ navigation }) {
@@ -19,50 +19,46 @@ export default function MajorSelectionScreen({ navigation }) {
     ]);
 
     const handleSubmit = async () => {
-        console.log('Selected Major:', major);
-      
-        try {
-          // fake test array to pass (replace later with real logic if needed)
-          const fakeRemainingCourses = [
-            ["COP 3502C", "Programming Fundamentals 1", "4"],
-            ["MAC 2311", "Calculus 1", "4"],
-            ["COP 3503C", "Programming Fundamentals 2", "4"],
-            ["COT 3100", "Discrete Structures", "3"],
-          ];
-      
-const response = await fetch("http://10.132.161.81:5000/generate", {
-            method: "POST",
-            headers: {
-            "Content-Type": "application/json",
-            },
-
-
-             body: JSON.stringify({
-            preferences: {},  // or real preferences when ready
-            remainingCourses: fakeRemainingCourses,
-  }),
-});
-      
-          const data = await response.json();
-          console.log("🧠 Scrape response:", data);
-      
-          if (response.ok) {
-            // send data forward
-            navigation.navigate("CourseSelection", { selectedMajor: major });
-          } else {
-            alert(`Scrape failed: ${data.error}`);
-          }
-        } catch (error) {
-          console.error("Network error:", error);
-          alert("Network request failed.");
+        if (!major) {
+            Alert.alert("Please select a major before continuing.");
+            return;
         }
-      };
-      
-      
+
+        console.log('Selected Major:', major);
+
+        try {
+            const response = await fetch("http://10.2.11.156:5001/generate", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    major: major,
+                    preferences: {}  // Placeholder for future additions
+                }),
+            });
+
+            const data = await response.json();
+            console.log("🧠 Scrape response:", data);
+
+            if (response.ok) {
+                navigation.navigate("CourseSelection", {
+                    selectedMajor: major,
+                    recommendationData: data,
+                });
+            } else {
+                Alert.alert("Scrape failed", data.error || "Unknown error from server.");
+            }
+        } catch (error) {
+            console.error("Network error:", error);
+            Alert.alert("Network error", "Could not connect to the server.");
+        }
+    };
 
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Select your major</Text>
+
             <View style={styles.dropdownContainer}>
                 <DropDownPicker
                     open={open}
@@ -76,11 +72,10 @@ const response = await fetch("http://10.132.161.81:5000/generate", {
                     dropDownContainerStyle={styles.dropdownList}
                 />
             </View>
-            
-          
+
             <TouchableOpacity style={styles.continueButton} onPress={handleSubmit}>
-                            <Text style={styles.buttonText}>Continue</Text>
-                          </TouchableOpacity>
+                <Text style={styles.buttonText}>Continue</Text>
+            </TouchableOpacity>
         </View>
     );
 }
@@ -120,10 +115,10 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         marginTop: 20,
         width: 150,
-      },
-      buttonText: {
+    },
+    buttonText: {
         color: '#ffffff',
         fontSize: 16,
         fontWeight: "800",
-      },
+    },
 });
