@@ -5,21 +5,17 @@ import {
   StyleSheet,
   SafeAreaView,
   ScrollView,
-  Button,
+  TouchableOpacity,
 } from 'react-native';
 import Checkbox from 'expo-checkbox';
-import { useNavigation } from '@react-navigation/native';
 
 // 📦 Load course data from JSON file
 const courseMap = require('../../assets/courses_by_semester.json');
 
-export default function CourseSelectScreen({ navigation }) {
-// 🗂️ Use courseMap directly
 const groupedBySemester = courseMap;
 
-export default function CourseSelectScreen() {
+export default function CourseSelectScreen({ navigation }) {
   const [selectedCourses, setSelectedCourses] = useState({});
-  const navigation = useNavigation();
 
   const toggleCourse = (code) => {
     setSelectedCourses((prev) => ({
@@ -57,10 +53,13 @@ export default function CourseSelectScreen() {
                 return !(code.trim().toLowerCase() === 'credits' && name.toLowerCase().includes('credits'));
               })
               .map(([code, name, credits], index) => (
-                <View key={`${semester}-${code || 'nocode'}-${index}`} style={[
-               styles.row,
-               { backgroundColor: semesterIndex % 2 === 0 ? '#FFBC5D' : '#5DAEFF' },
-             ]}>
+                <View
+                  key={`${semester}-${code || 'nocode'}-${index}`}
+                  style={[
+                    styles.row,
+                    { backgroundColor: semesterIndex % 2 === 0 ? '#FFBC5D' : '#5DAEFF' },
+                  ]}
+                >
                   <View style={styles.cell}>
                     <Text style={styles.code}>{code}</Text>
                   </View>
@@ -77,17 +76,17 @@ export default function CourseSelectScreen() {
           </View>
         ))}
       </ScrollView>
-       <TouchableOpacity style={styles.continueButton} onPress={handleContinue}>
-                                  <Text style={styles.buttonText}>Continue</Text>
-                                </TouchableOpacity>
 
+      <TouchableOpacity style={styles.continueButton} onPress={handleContinue}>
+        <Text style={styles.buttonText}>Continue</Text>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   scrollContent: {
-      paddingBottom: 40,
+    paddingBottom: 40,
   },
   container: {
     padding: 16,
@@ -115,7 +114,7 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     alignItems: 'center',
-    borderColor: '000',
+    borderColor: '#000',
     borderWidth: 1,
     padding: 8,
     borderRadius: 6,
@@ -140,6 +139,6 @@ const styles = StyleSheet.create({
   buttonText: {
     color: '#ffffff',
     fontSize: 16,
-    fontWeight: "800",
+    fontWeight: '800',
   },
 });

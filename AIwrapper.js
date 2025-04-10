@@ -36,7 +36,7 @@ Spring 2026:
 
 End the schedule at or before ${gradSemester}.
 
-Return your response as a **JSON object** like this:
+Return your response as a **pure JSON object only**, like this — no extra formatting, no explanation, no markdown:
 
 {
   "Fall 2025": [["COP3502", "Programming Fundamentals 1", 3]],
@@ -65,8 +65,18 @@ Return your response as a **JSON object** like this:
   const data = await response.json();
   const content = data.choices?.[0]?.message?.content || "";
 
+  console.log("Raw OpenAI Response:", content);
+
+  // Clean up response to handle formatting issues
+  let jsonString = content.trim();
+
+  // Remove triple backticks and optional "json" language marker
+  if (jsonString.startsWith("```")) {
+    jsonString = jsonString.replace(/```(?:json)?/g, "").trim();
+  }
+
   try {
-    const parsed = JSON.parse(content);
+    const parsed = JSON.parse(jsonString);
     return parsed;
   } catch (e) {
     return { rawResponse: content }; // fallback if not valid JSON

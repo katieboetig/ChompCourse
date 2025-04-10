@@ -6,48 +6,9 @@
       ""
     ],
     [
-      "COP 3502C",
-      "Programming Fundamentals 1 (Critical Tracking)",
+      "ECO 2023",
+      "Principles of Microeconomics (Critical Tracking; Gen Ed Social and Behavioral Sciences)",
       "4"
-    ],
-    [
-      "EGN 2020C",
-      "Engineering Design & Society (or other Gen Ed Physical Sciences course)",
-      "2"
-    ],
-    [
-      "MAC 2311",
-      "Analytic Geometry and Calculus 1 (Critical Tracking; State Core Gen Ed Mathematics)",
-      "4"
-    ]
-  ],
-  "SEMESTER TWO": [
-    [
-      "COP 3503C",
-      "Programming Fundamentals 2",
-      "4"
-    ],
-    [
-      "COT 3100",
-      "Applications of Discrete Structures",
-      "3"
-    ],
-    [
-      "MAC 2312",
-      "Analytic Geometry and Calculus 2 (Critical Tracking; Gen Ed Mathematics)",
-      "4"
-    ],
-    [
-      "PHY 2048\n& 2048L",
-      "Physics with Calculus 1\nand Laboratory for Physics with Calculus 1 (Critical Tracking; State Core Gen Ed Physical Sciences)",
-      "4"
-    ]
-  ],
-  "SUMMER AFTER SEMESTER TWO": [
-    [
-      "ENC 1101\nor ENC 1102",
-      "Expository and Argumentative Writing (State Core GE Composition; Writing Requirement: 6,000 words)\nor Argument and Persuasion",
-      "3"
     ],
     [
       "State Core Gen Ed Biological or Physical Sciences",
@@ -55,147 +16,222 @@
       ""
     ],
     [
+      "Elective 1",
+      "3",
+      ""
+    ]
+  ],
+  "SEMESTER TWO": [
+    [
+      "Quest 2 (Gen Ed Biological or Physical Sciences)",
+      "3",
+      ""
+    ],
+    [
+      "ECO 2013",
+      "Principles of Macroeconomics (Critical Tracking; State Core Gen Ed Social and Behavioral Sciences)",
+      "4"
+    ],
+    [
+      "MAC 2233",
+      "Survey of Calculus 1 (Critical Tracking; State Core Gen Ed Mathematics)",
+      "3"
+    ],
+    [
       "State Core Gen Ed Humanities",
+      "3",
+      ""
+    ],
+    [
+      "Gen Ed Composition; Writing Requirement",
       "3",
       ""
     ]
   ],
   "SEMESTER THREE": [
     [
-      "CDA 3101",
-      "Introduction to Computer Organization",
-      "3"
-    ],
-    [
-      "COP 3530",
-      "Data Structures and Algorithm",
-      "3"
-    ],
-    [
-      "MAC 2313",
-      "Analytic Geometry and Calculus 3 (Critical Tracking; Gen Ed Mathematics)",
+      "ACG 2021",
+      "Introduction to Financial Accounting (Critical Tracking)",
       "4"
     ],
     [
-      "PHY 2049\n& 2049L",
-      "Physics with Calculus 2\nand Laboratory for Physics with Calculus 2 (Critical Tracking; Gen Ed Physical Sciences)",
-      "4"
+      "Select one:",
+      "3-4",
+      ""
+    ],
+    [
+      "CGS 2531",
+      "Problem Solving Using Computer Software (Critical Tracking; Gen Ed Mathematics)",
+      ""
+    ],
+    [
+      "ISM 3013",
+      "Introduction to Information Systems (Critical Tracking)",
+      ""
+    ],
+    [
+      "Career Readiness Course (Explore Phase)",
+      "1",
+      ""
+    ],
+    [
+      "State Core Gen Ed Composition",
+      "3",
+      ""
+    ],
+    [
+      "Gen Ed Diversity",
+      "3",
+      ""
+    ],
+    [
+      "Gen Ed International",
+      "3",
+      ""
     ]
   ],
   "SEMESTER FOUR": [
     [
-      "CEN 3031",
-      "Introduction to Software Engineering",
+      "ACG 2071",
+      "Introduction to Managerial Accounting (Critical Tracking)",
+      "4"
+    ],
+    [
+      "STA 2023",
+      "Introduction to Statistics 1 (Critical Tracking; Gen Ed Mathematics)",
       "3"
     ],
     [
-      "CIS 4301",
-      "Information and Database Systems 1",
-      "3"
-    ],
-    [
-      "ENC 3246",
-      "Professional Communication for Engineers (Gen Ed Composition; Writing Requirement: 6,000 words)",
-      "3"
-    ],
-    [
-      "MAS 3114\nor MAS 4105",
-      "Computational Linear Algebra\nor Linear Algebra 1",
-      "3-4"
-    ],
-    [
-      "Gen Ed Social and Behavioral Sciences with Diversity or International",
+      "Select one professional communication course:",
       "3",
+      ""
+    ],
+    [
+      "GEB 3213",
+      "Professional Writing in Business",
+      ""
+    ],
+    [
+      "GEB 3218",
+      "Professional Speaking in Business",
+      ""
+    ],
+    [
+      "SPC 2608",
+      "Introduction to Public Speaking",
+      ""
+    ],
+    [
+      "ENC 3312",
+      "Advanced Argumentative Writing",
+      ""
+    ],
+    [
+      "Career Readiness Course (Apply Phase)",
+      "1",
+      ""
+    ],
+    [
+      "Electives",
+      "4",
       ""
     ]
   ],
   "SEMESTER FIVE": [
     [
-      "Quest 2 (Gen Ed Social and Behavioral Sciences OR Gen Ed Biological or Physical Sciences)",
+      "MAN 3025",
+      "Principles of Management (Gen Ed Social and Behavioral Sciences)",
+      "4"
+    ],
+    [
+      "QMB 3250",
+      "Statistics for Business Decisions",
+      "4"
+    ],
+    [
+      "QMB 3302",
+      "Foundations of Business Analytics and Artificial Intelligence (AI)",
+      "4"
+    ],
+    [
+      "Area of specialization course",
       "3",
       ""
     ],
     [
-      "COP 4600",
-      "Operating Systems",
-      "3"
-    ],
-    [
-      "STA 3032",
-      "Engineering Statistics",
-      "3"
-    ],
-    [
-      "Technical elective",
-      "3",
+      "Career Readiness Course (Enrich Phase)",
+      "1",
       ""
     ]
   ],
   "SEMESTER SIX": [
     [
-      "COP 4020",
-      "Programming Language Concepts",
-      "3"
+      "FIN 3403",
+      "Business Finance",
+      "4"
     ],
     [
-      "COP 4533",
-      "Algorithm Abstraction and Design",
-      "3"
+      "MAR 3023",
+      "Principles of Marketing",
+      "4"
     ],
     [
-      "Interdisciplinary electives",
-      "6",
-      ""
-    ],
-    [
-      "Technical elective",
+      "Area of specialization course",
       "3",
       ""
-    ]
-  ],
-  "SUMMER AFTER SEMESTER SIX": [
+    ],
     [
-      "Internship / Co-op (if desired)",
-      "",
+      "Career Readiness Course (Enrich Phase)",
+      "1",
       ""
     ]
   ],
   "SEMESTER SEVEN": [
     [
-      "CNT 4007",
-      "Computer Network Fundamentals",
-      "3"
+      "BUL 4310",
+      "The Legal Environment of Business",
+      "4"
     ],
     [
-      "EGS 4034\nor CGS 3065",
-      "Engineering Ethics and Professionalism\nor Legal and Social Issues in Computing",
-      "1-3"
+      "GEB 3373",
+      "International Business",
+      "4"
     ],
     [
-      "Technical electives",
-      "6",
+      "Area of specialization course",
+      "3",
       ""
     ],
     [
-      "Interdisciplinary elective",
-      "3",
+      "Business elective",
+      "4",
       ""
     ]
   ],
   "SEMESTER EIGHT": [
     [
-      "EGN 4952\nor CIS 4914",
-      "Integrated Product and Process Design 2\nor Senior Project",
-      "3"
+      "MAN 4504",
+      "Operations and Supply Chain Management",
+      "4"
     ],
     [
-      "Technical electives",
-      "6",
+      "Area of specialization course",
+      "3",
       ""
     ],
     [
-      "Interdisciplinary electives",
-      "5",
+      "Business elective",
+      "4",
+      ""
+    ],
+    [
+      "Career Readiness Course (Advance Phase)",
+      "2",
+      ""
+    ],
+    [
+      "Elective",
+      "3",
       ""
     ],
     [
