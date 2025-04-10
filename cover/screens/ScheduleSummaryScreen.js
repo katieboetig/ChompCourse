@@ -1,16 +1,17 @@
 // SummaryScreen.js
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TextInput, Button } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TextInput, Button, TouchableOpacity } from 'react-native';
 import { useRoute, useNavigation } from '@react-navigation/native';
 
 export default function ScheduleSummaryScreen() {
   const route = useRoute();
   const navigation = useNavigation();
+  const semesterOptions = ['Fall', 'Spring', 'Summer'];
   const { takenCourses = [], remainingCourses = [] } = route.params || {};
 
   const [gradSemester, setGradSemester] = useState('');
   const [creditsPerSemester, setCreditsPerSemester] = useState('');
-  const [availableSemesters, setAvailableSemesters] = useState('');
+  const [availableSemesters, setAvailableSemesters] = useState([]);
 
   const handleGenerateSchedule = async () => {
     try {
@@ -22,8 +23,8 @@ export default function ScheduleSummaryScreen() {
         body: JSON.stringify({
           preferences: {
             gradSemester,
-            creditsPerSemester,
-            availableSemesters,
+            credits: creditsPerSemester,
+            availableSemesters: availableSemesters.join(','),
           },
           takenCourses,
           remainingCourses,
@@ -69,13 +70,50 @@ return (
         placeholder="e.g. 12,13,14"
       />
 
-      <Text style={styles.label}>Which semesters are you available for enrollment?:</Text>
-      <TextInput
-        style={styles.input}
-        value={availableSemesters}
-        onChangeText={setAvailableSemesters}
-        placeholder="Fall,Spring,Summer"
-      />
+<Text style={styles.label}>Which semesters are you available for enrollment?</Text>
+{semesterOptions.map((semester) => (
+  <TouchableOpacity
+    key={semester}
+    style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 6 }}
+    onPress={() => {
+      if (availableSemesters.includes(semester)) {
+        setAvailableSemesters(availableSemesters.filter(s => s !== semester));
+      } else {
+        setAvailableSemesters([...availableSemesters, semester]);
+      }
+    }}
+  >
+    <View
+      style={{
+        height: 20,
+        width: 20,
+        borderRadius: 4,
+        borderWidth: 2,
+        borderColor: '#333',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginRight: 10
+      }}
+    >
+      {availableSemesters.includes(semester) && (
+        <View
+          style={{
+            height: 12,
+            width: 12,
+            backgroundColor: '#333',
+            borderRadius: 2,
+          }}
+        />
+      )}
+    </View>
+    <Text>{semester}</Text>
+  </TouchableOpacity>
+))}
+
+<Text style={{ marginTop: 8, fontStyle: 'italic' }}>
+  Selected: {availableSemesters.join(', ') || 'None'}
+</Text>
+
 
       <Text style={styles.subheader}>📚 Remaining Courses:</Text>
       {remainingCourses.map(([code, name, credits], index) => (
