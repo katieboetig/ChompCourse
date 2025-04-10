@@ -22,28 +22,42 @@ export default function MajorSelectionScreen({ navigation }) {
         console.log('Selected Major:', major);
       
         try {
-          const response = await fetch('http://10.132.161.81:5000/scrape', {
-            method: 'POST',
+          // fake test array to pass (replace later with real logic if needed)
+          const fakeRemainingCourses = [
+            ["COP 3502C", "Programming Fundamentals 1", "4"],
+            ["MAC 2311", "Calculus 1", "4"],
+            ["COP 3503C", "Programming Fundamentals 2", "4"],
+            ["COT 3100", "Discrete Structures", "3"],
+          ];
+      
+const response = await fetch("http://10.132.161.81:5000/generate", {
+            method: "POST",
             headers: {
-              'Content-Type': 'application/json',
+            "Content-Type": "application/json",
             },
-            body: JSON.stringify({ major }),
-          });
+
+
+             body: JSON.stringify({
+            preferences: {},  // or real preferences when ready
+            remainingCourses: fakeRemainingCourses,
+  }),
+});
       
           const data = await response.json();
-          console.log('🧠 Scrape response:', data);
+          console.log("🧠 Scrape response:", data);
       
           if (response.ok) {
-            // Success! Move to the next screen
-            navigation.navigate('CourseSelection', { selectedMajor: major });
+            // send data forward
+            navigation.navigate("CourseSelection", { selectedMajor: major });
           } else {
             alert(`Scrape failed: ${data.error}`);
           }
         } catch (error) {
-          console.error('❌ Network error:', error);
-          alert('Failed to contact scraping server.');
+          console.error("Network error:", error);
+          alert("Network request failed.");
         }
       };
+      
       
 
     return (

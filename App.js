@@ -2,6 +2,8 @@ import 'react-native-gesture-handler';
 import Animated from 'react-native-reanimated'
 import React, { useState } from 'react';  // ✅ Add useState
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import ResultsScreen from './cover/screens/ResultsScreen';
+import ScheduleSummaryScreen from './cover/screens/ScheduleSummaryScreen';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -23,6 +25,8 @@ export default function App() {
         <Stack.Screen name="Signup" component={SignupScreen} />
         <Stack.Screen name="MajorSelection" component={MajorSelectionScreen} />
         <Stack.Screen name="CourseSelection" component={courseSelection} />
+        <Stack.Screen name="ScheduleSummary" component={ScheduleSummaryScreen} />
+        <Stack.Screen name="ResultsScreen" component={ResultsScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
