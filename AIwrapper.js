@@ -1,5 +1,5 @@
 const url = 'https://api.openai.com/v1/chat/completions';
-const OPENAI_API_KEY = "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";
+const OPENAI_API_KEY = "sk-proj-";
 
 const headers = {
   'Content-Type': 'application/json',
