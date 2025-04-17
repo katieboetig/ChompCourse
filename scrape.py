@@ -1,8 +1,9 @@
-print("✅ scrape.py started!")
-
-# 🧠 IMPORTS
 import sys
 import io
+
+# 🔧 Ensure UTF-8 encoding IMMEDIATELY
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+
 import time
 import json
 import os
@@ -12,8 +13,6 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-# 🔧 Ensure UTF-8 encoding
-sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
 # 🧪 Check for major argument
 if len(sys.argv) < 2:

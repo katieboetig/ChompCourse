@@ -17,12 +17,13 @@ const groupedBySemester = courseMap;
 export default function CourseSelectScreen({ navigation }) {
   const [selectedCourses, setSelectedCourses] = useState({});
 
-  const toggleCourse = (code) => {
+  const toggleCourse = (key) => {
     setSelectedCourses((prev) => ({
       ...prev,
-      [code]: !prev[code],
+      [key]: !prev[key],
     }));
   };
+  
 
   const handleContinue = () => {
     const unselectedCourses = Object.entries(groupedBySemester)
@@ -32,7 +33,11 @@ export default function CourseSelectScreen({ navigation }) {
             ([code, name]) =>
               !(code.trim().toLowerCase() === 'credits' && name.toLowerCase().includes('credits'))
           )
-          .filter(([code]) => !selectedCourses[code])
+          .filter(([_code, _name, _credits], idx) => {
+            const key = `${semester}-${idx}`;
+            return !selectedCourses[key];
+          })
+          
       );
 
     navigation.navigate('ScheduleSummary', {
@@ -44,6 +49,7 @@ export default function CourseSelectScreen({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.header}>Choose the classes you’ve already taken</Text>
+      
       <ScrollView contentContainerStyle={styles.scrollContent}>
         {Object.entries(groupedBySemester).map(([semester, courses], semesterIndex) => (
           <View key={semester} style={styles.semesterBlock}>
@@ -52,38 +58,38 @@ export default function CourseSelectScreen({ navigation }) {
               .filter(([code, name]) => {
                 return !(code.trim().toLowerCase() === 'credits' && name.toLowerCase().includes('credits'));
               })
-              .map(([code, name, credits], index) => (
-                <View
-                  key={`${semester}-${code || 'nocode'}-${index}`}
-                  style={[
+              .map(([code, name, credits], index) => {
+                const courseKey = `${semester}-${index}`;
+                return (
+                  <View key={`${semester}-${code || 'nocode'}-${index}`} style={[
                     styles.row,
-                    { backgroundColor: semesterIndex % 2 === 0 ? '#FFBC5D' : '#5DAEFF' },
-                  ]}
-                >
-                  <View style={styles.cell}>
-                    <Text style={styles.code}>{code}</Text>
+                    { backgroundColor: semesterIndex % 2 === 0 ? '#FFBC5D' : '#5DAEC6' }
+                  ]}>
+                    <View style={styles.cell}>
+                      <Text style={styles.code}>{code}</Text>
+                    </View>
+                    <View style={styles.cell}>
+                      <Text>{name} ({credits} credits)</Text>
+                    </View>
+                    <Checkbox
+                      value={!!selectedCourses[courseKey]}
+                      onValueChange={() => toggleCourse(courseKey)}
+                      color={selectedCourses[courseKey] ? '#333' : undefined}
+                    />
                   </View>
-                  <View style={styles.cell}>
-                    <Text>{name} ({credits} credits)</Text>
-                  </View>
-                  <Checkbox
-                    value={!!selectedCourses[code]}
-                    onValueChange={() => toggleCourse(code)}
-                    color={selectedCourses[code] ? '#333' : undefined}
-                  />
-                </View>
-              ))}
+                );
+              })}
           </View>
         ))}
       </ScrollView>
-
+  
       <TouchableOpacity style={styles.continueButton} onPress={handleContinue}>
         <Text style={styles.buttonText}>Continue</Text>
       </TouchableOpacity>
     </SafeAreaView>
   );
+  
 }
-
 const styles = StyleSheet.create({
   scrollContent: {
     paddingBottom: 40,

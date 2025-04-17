@@ -3,6 +3,7 @@ from flask_cors import CORS
 import subprocess
 import json
 import os
+import sys
 
 app = Flask(__name__)
 CORS(app)  # Allow cross-origin requests from React Native
@@ -32,11 +33,13 @@ def generate():
 
         # Example: Run scrape.py with the major as argument (optional)
         result = subprocess.run(
-            ["python3", "scrape.py", major],
-            capture_output=True,
-            text=True,
-            check=True
-        )
+    [sys.executable, "scrape.py", major],
+    capture_output=True,
+    text=True,
+    check=True,
+    encoding="utf-8"  # ✅ this is the key!
+)
+
         print("✅ scrape.py completed.")
 
         # Example: read the output JSON file from scrape.py

@@ -27,7 +27,7 @@ export default function MajorSelectionScreen({ navigation }) {
         console.log('Selected Major:', major);
 
         try {
-            const response = await fetch("http://10.2.11.156:5001/generate", {
+            const response = await fetch("http://10.132.161.81:5001/generate", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
